@@ -1,0 +1,12 @@
+{
+  "name": "ct-owners-api",
+  "description": "Element for consuming /owners API",
+  "main": "ct-owners-api.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
+    "ct-core-utils": "git://github.com/centular-elements/ct-core-utils"
+  },
+  "devDependencies": {
+  }
+}

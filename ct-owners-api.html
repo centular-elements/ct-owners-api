@@ -1,0 +1,150 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../ct-core-utils/ct-api-provider-behaviour.html">
+
+<dom-module id="ct-owners-api">
+  <template>
+    <iron-ajax id="createOwner"></iron-ajax>
+    <iron-ajax id="filterOwners"></iron-ajax>
+    <iron-ajax id="searchOwners"></iron-ajax>
+    <iron-ajax id="getOwner"></iron-ajax>
+    <iron-ajax id="updateOwner"></iron-ajax>
+    <iron-ajax id="deleteOwner"></iron-ajax>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'ct-owners-api',
+      behaviors: [CT.Behaviours.ApiProvider],
+
+      /**
+       * Create a new owner
+       *
+       * @param {Object} {
+                          "name": "string",
+                          "surname": "string",
+                          "email": "string",
+                          "phone": "string",
+                          "idNumber": "string",
+                          "trust": {
+                            "legalEntityName": "string",
+                            "registrationNumber": "string",
+                            "vatNumber": "string"
+                          },
+                          "company": {
+                            "legalEntityName": "string",
+                            "registrationNumber": "string",
+                            "vatNumber": "string"
+                          }
+                        }
+       *
+       * @returns {Promise}
+       */
+      createOwner: function(newOwner) {
+        this.$.createOwner.url=this._url('/owners');
+        this.$.createOwner.method = 'POST';
+        this.$.createOwner.contentType = "application/json";
+        this.$.createOwner.body = newOwner;
+        return this._generateRequest(this.$.createOwner);
+      },
+
+      /**
+       * List all owners by filter criteria
+       *
+       * @param {String} pageNumber
+       * @param {String} pageSize
+       * @returns {Promise}
+       */
+      filterOwners: function(pageNumber, pageSize) {
+        var queryParamsClause = [
+          pageNumber ? 'page_number=' + pageNumber : null,
+          pageSize ? 'page_size=' + pageSize : null
+        ].filter(function (queryParam) {
+          return queryParam !== null;
+        }).join('&');
+
+        queryParamsClause = queryParamsClause.length > 0 ? '?' + queryParamsClause : '';
+
+        this.$.filterOwners.url = this._url('/owners' + queryParamsClause);
+        return this._generateRequest(this.$.filterOwners);
+      },
+
+      /**
+       * Search for owners matching the likeness of criteria
+       *
+       * @param {String} pageNumber
+       * @param {String} pageSize
+       * @param {String} firstName
+       * @param {String} lastName
+       * @param {String} email
+       * @param {String} phone
+       * @param {String} idNumber
+       *
+       * @returns {Promise}
+       */
+      searchOwners: function (pageNumber, pageSize, firstName, lastName, email, phone, idNumber) {
+        var queryParamsClause = [
+          pageNumber ? 'page_number=' + pageNumber : null,
+          pageSize ? 'page_size=' + pageSize : null,
+          firstName ? 'first_name=' + firstName : null,
+          lastName ? 'last_name=' + lastName : null,
+          email ? 'email=' + email : null,
+          phone ? 'phone=' + phone : null,
+          idNumber ? 'id_number=' + idNumber : null
+        ].filter(function (queryParam) {
+          return queryParam !== null;
+        }).join('&');
+
+        queryParamsClause = queryParamsClause.length > 0 ? '?' + queryParamsClause : '';
+
+        this.$.searchOwners.url = this._url('/owners/search' + queryParamsClause);
+        return this._generateRequest(this.$.searchOwners);
+      },
+
+      /**
+       * Get an owner by id
+       *
+       * @param {String} id
+       *
+       * @returns {Promise}
+       */
+      getOwner: function(id) {
+        this.$.getOwner.url = this._url('/owners/' + id);
+        return this._generateRequest(this.$.getOwner);
+      },
+
+      /**
+       * Update an owner
+       *
+       * @param {String} {
+                          "name": "string",
+                          "surname": "string",
+                          "email": "string",
+                          "phone": "string",
+                          "idNumber": "string",
+                          "trust": {
+                            "legalEntityName": "string",
+                            "registrationNumber": "string",
+                            "vatNumber": "string"
+                          },
+                          "company": {
+                            "legalEntityName": "string",
+                            "registrationNumber": "string",
+                            "vatNumber": "string"
+                          }
+                        }
+       *
+       * @returns {Promise}
+       */
+      updateOwner: function(id, updatedOwner) {
+        this.$.updateOwner.url=this._url('/owners/'+id);
+        this.$.updateOwner.method = 'PUT';
+        this.$.updateOwner.contentType = "application/json";
+        this.$.updateOwner.body = updatedOwner;
+        return this._generateRequest(this.$.updateOwner);
+      }
+
+    });
+  </script>
+</dom-module>
