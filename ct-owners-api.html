@@ -10,6 +10,7 @@
     <iron-ajax id="getOwner"></iron-ajax>
     <iron-ajax id="updateOwner"></iron-ajax>
     <iron-ajax id="deleteOwner"></iron-ajax>
+    <iron-ajax id="getOwnerAuditLog"></iron-ajax>
   </template>
 
   <script>
@@ -143,6 +144,11 @@
         this.$.updateOwner.contentType = "application/json";
         this.$.updateOwner.body = updatedOwner;
         return this._generateRequest(this.$.updateOwner);
+      },
+
+      getOwnerAuditLog: function(id) {
+        this.$.getOwnerAuditLog.url = this._url('/owners/' + id + '/audit');
+        return this._generateRequest(this.$.getOwnerAuditLog);
       }
 
     });
