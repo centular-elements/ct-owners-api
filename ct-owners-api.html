@@ -11,6 +11,8 @@
     <iron-ajax id="updateOwner"></iron-ajax>
     <iron-ajax id="deleteOwner"></iron-ajax>
     <iron-ajax id="getOwnerAuditLog"></iron-ajax>
+    <iron-ajax id="createOwnerNote"></iron-ajax>
+    <iron-ajax id="getOwnerNotes"></iron-ajax>
   </template>
 
   <script>
@@ -149,6 +151,28 @@
       getOwnerAuditLog: function(id) {
         this.$.getOwnerAuditLog.url = this._url('/owners/' + id + '/audit');
         return this._generateRequest(this.$.getOwnerAuditLog);
+      },
+
+      createOwnerNote(ownerId, note) {
+        this.$.createOwnerNote.url=this._url('/owners/' + ownerId + "/notes");
+        this.$.createOwnerNote.method = 'POST';
+        this.$.createOwnerNote.contentType = "application/json";
+        this.$.createOwnerNote.body = { note: note };
+        return this._generateRequest(this.$.createOwnerNote);
+      },
+
+      getOwnerNotes(ownerId, pageNumber, pageSize) {
+        var queryParamsClause = [
+          pageNumber ? 'page_number=' + pageNumber : null,
+          pageSize ? 'page_size=' + pageSize : null
+        ].filter(function (queryParam) {
+          return queryParam !== null;
+        }).join('&');
+
+        queryParamsClause = queryParamsClause.length > 0 ? '?' + queryParamsClause : '';
+
+        this.$.getOwnerNotes.url = this._url('/owners/' + ownerId + '/notes' + queryParamsClause);
+        return this._generateRequest(this.$.getOwnerNotes);
       }
 
     });
