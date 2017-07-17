@@ -149,7 +149,7 @@
         return this._generateRequest(this.$.updateOwner);
       },
 
-      createOwnerBankAccount: function (newBankAccount) {
+      createOwnerBankAccount: function (ownerId, newBankAccount) {
         this.$.createOwnerBankAccount.url=this._url('/owners/' + ownerId + "/bank-accounts");
         this.$.createOwnerBankAccount.method = 'POST';
         this.$.createOwnerBankAccount.contentType = "application/json";
