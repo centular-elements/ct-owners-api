@@ -17,6 +17,7 @@
     <iron-ajax id="getOwnerNotes"></iron-ajax>
     <iron-ajax id="createBuilding"></iron-ajax>
     <iron-ajax id="filterBuildings"></iron-ajax>
+    <iron-ajax id="searchBuildings"></iron-ajax>
   </template>
 
   <script>
@@ -221,6 +222,28 @@
 
         this.$.filterBuildings.url = this._url('/owners/' + ownerId + '/buildings' + queryParamsClause);
         return this._generateRequest(this.$.filterBuildings);
+      },
+
+      searchBuildings: function(ownerId, pageNumber, pageSize, name, streetNumber, streetName, suburb, city, province, country, postalCode) {
+        var queryParamsClause = [
+          pageNumber ? 'page_number=' + pageNumber : null,
+          pageSize ? 'page_size=' + pageSize : null,
+          name ? 'name=' + name : null,
+          streetNumber ? 'street_number=' + streetNumber : null,
+          streetName ? 'street_name=' + streetName : null,
+          suburb ? 'suburb=' + suburb : null,
+          city ? 'city=' + city : null,
+          province ? 'province=' + province : null,
+          country ? 'country=' + country : null,
+          postalCode ? 'postal_code=' + postalCode : null
+        ].filter(function (queryParam) {
+          return queryParam !== null;
+        }).join('&');
+
+        queryParamsClause = queryParamsClause.length > 0 ? '?' + queryParamsClause : '';
+
+        this.$.searchBuildings.url = this._url('/owners/' + ownerId + '/buildings/search' + queryParamsClause);
+        return this._generateRequest(this.$.searchBuildings);
       }
 
     });
