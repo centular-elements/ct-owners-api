@@ -224,7 +224,7 @@
         return this._generateRequest(this.$.filterBuildings);
       },
 
-      searchBuildings: function(ownerId, pageNumber, pageSize, name, streetNumber, streetName, suburb, city, province, country, postalCode) {
+      searchBuildings: function(ownerId, pageNumber, pageSize, name, streetNumber, streetName, suburb, city, province, country, postalCode, validationStatus) {
         var queryParamsClause = [
           pageNumber ? 'page_number=' + pageNumber : null,
           pageSize ? 'page_size=' + pageSize : null,
@@ -235,7 +235,8 @@
           city ? 'city=' + city : null,
           province ? 'province=' + province : null,
           country ? 'country=' + country : null,
-          postalCode ? 'postal_code=' + postalCode : null
+          postalCode ? 'postal_code=' + postalCode : null,
+          postalCode ? 'validation_status=' + validationStatus : null
         ].filter(function (queryParam) {
           return queryParam !== null;
         }).join('&');
