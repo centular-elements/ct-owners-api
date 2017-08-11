@@ -236,7 +236,7 @@
           province ? 'province=' + province : null,
           country ? 'country=' + country : null,
           postalCode ? 'postal_code=' + postalCode : null,
-          postalCode ? 'validation_status=' + validationStatus : null
+          validationStatus ? 'validation_status=' + validationStatus : null
         ].filter(function (queryParam) {
           return queryParam !== null;
         }).join('&');
