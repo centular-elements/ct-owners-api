@@ -10,8 +10,6 @@
     <iron-ajax id="getOwner"></iron-ajax>
     <iron-ajax id="updateOwner"></iron-ajax>
     <iron-ajax id="deleteOwner"></iron-ajax>
-    <iron-ajax id="createOwnerBankAccount"></iron-ajax>
-    <iron-ajax id="filterOwnerBankAccounts"></iron-ajax>
     <iron-ajax id="getOwnerAuditLog"></iron-ajax>
     <iron-ajax id="createOwnerNote"></iron-ajax>
     <iron-ajax id="getOwnerNotes"></iron-ajax>
@@ -151,28 +149,6 @@
         this.$.updateOwner.contentType = "application/json";
         this.$.updateOwner.body = updatedOwner;
         return this._generateRequest(this.$.updateOwner);
-      },
-
-      createOwnerBankAccount: function (ownerId, newBankAccount) {
-        this.$.createOwnerBankAccount.url=this._url('/owners/' + ownerId + "/bank-accounts");
-        this.$.createOwnerBankAccount.method = 'POST';
-        this.$.createOwnerBankAccount.contentType = "application/json";
-        this.$.createOwnerBankAccount.body = newBankAccount;
-        return this._generateRequest(this.$.createOwnerBankAccount);
-      },
-
-      filterOwnerBankAccounts: function (ownerId, pageNumber, pageSize) {
-        var queryParamsClause = [
-          pageNumber ? 'page_number=' + pageNumber : null,
-          pageSize ? 'page_size=' + pageSize : null
-        ].filter(function (queryParam) {
-          return queryParam !== null;
-        }).join('&');
-
-        queryParamsClause = queryParamsClause.length > 0 ? '?' + queryParamsClause : '';
-
-        this.$.filterOwnerBankAccounts.url = this._url('/owners/' + ownerId + '/bank-accounts' + queryParamsClause);
-        return this._generateRequest(this.$.filterOwnerBankAccounts);
       },
 
       getOwnerAuditLog: function(ownerId) {
